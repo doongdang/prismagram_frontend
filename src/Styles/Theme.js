@@ -1,4 +1,4 @@
-const BOX_BORDER = "1px solid #dbdbd";
+const BOX_BORDER = "1px solid #dbdbdb";
 const BORDER_RADIUS = "4px";
 
 export default {
@@ -12,8 +12,8 @@ export default {
   boxBorder: "1px solid #dbdbdb",
   borderRadius: "4px",
   whiteBox: `
-    ${BOX_BORDER};
-    ${BORDER_RADIUS};
+    border:${BOX_BORDER};
+    border-radius:${BORDER_RADIUS};
     background-color:white
   `,
 };
