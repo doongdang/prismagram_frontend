@@ -6,23 +6,17 @@ import { LOG_IN, CREATE_ACCOUNT } from "./AuthQueries";
 import { toast } from "react-toastify";
 
 export default () => {
-  const [action, setAction] = useState("LogIn");
+  const [action, setAction] = useState("logIn");
   const username = useInput("");
   const firstName = useInput("");
   const lastName = useInput("");
-  const email = useInput("");
-  const [requestSecret] = useMutation(LOG_IN, {
-    update: (_, { data }) => {
-      const { requestSecret } = data;
-      if (!requestSecret) {
-        toast.error("Don`t have an Account yet. Create New Account.");
-        setTimeout(() => setAction("signup"), 1500);
-      }
-    },
+  const secret = useInput("");
+  const email = useInput("whtjrgus0428@gmail.com");
+  const [requestSecretMutation] = useMutation(LOG_IN, {
     variables: { email: email.value },
   });
 
-  const [createAccount] = useMutation(CREATE_ACCOUNT, {
+  const [createAccountMutation] = useMutation(CREATE_ACCOUNT, {
     variables: {
       email: email.value,
       username: username.value,
@@ -31,11 +25,24 @@ export default () => {
     },
   });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (action === "logIn") {
       if (email.value !== "") {
-        requestSecret();
+        try {
+          const {
+            data: { requestSecret },
+          } = await requestSecretMutation();
+          if (!requestSecret) {
+            toast.error("Don`t have an Account yet. Create New Account.");
+            setTimeout(() => setAction("signUp"), 1500);
+          } else {
+            toast.success("Successfully Sending. Check Your Email.");
+            setAction("confirm");
+          }
+        } catch {
+          toast.error("Can`t Request Secret.");
+        }
       } else {
         toast.error("Email is Required");
       }
@@ -46,7 +53,19 @@ export default () => {
         firstName.value !== "" &&
         lastName.value !== ""
       ) {
-        createAccount();
+        try {
+          const {
+            data: { createAccount },
+          } = await createAccountMutation();
+          if (!createAccount) {
+            toast.error("Can`t Create Account.");
+          } else {
+            toast.success("Account is Created. Log In Now.");
+            setTimeout(() => setAction("logIn"), 1500);
+          }
+        } catch (e) {
+          toast.error(e.message);
+        }
       } else {
         toast.error("All Fields are Required.");
       }
@@ -61,6 +80,7 @@ export default () => {
       firstName={firstName}
       lastName={lastName}
       email={email}
+      secret={secret}
       onSubmit={onSubmit}
     />
   );
