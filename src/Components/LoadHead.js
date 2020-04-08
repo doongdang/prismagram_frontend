@@ -13,7 +13,7 @@ const Input = styled.input`
   text-align: center;
   width: 70%;
   &::placeholder {
-    opacity: 0.8;
+    opacity: 0.3;
     font-weight: 200;
   }
 `;
@@ -66,7 +66,7 @@ export default () => {
         </HeaderColumn>
         <HeaderColumn>
           <form>
-            <Input placeholder="Loading" />
+            <Input placeholder="Requesting from Server" />
           </form>
         </HeaderColumn>
         <HeaderColumn>
