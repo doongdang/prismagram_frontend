@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
 
 import { HeartEmpty, Compass, User, Logo } from "./Icons";
 import useInput from "../Hooks/useInput";
 import Input from "./Input";
-import { useQuery } from "@apollo/react-hooks";
+import LoadHead from "./LoadHead";
 
 const Header = styled.header`
   width: 100%;
@@ -72,9 +73,10 @@ const ME = gql`
 export default withRouter(({ history }) => {
   const search = useInput("");
   const { data } = useQuery(ME);
-  if (data === undefined) {
-    return "⌛";
+  if (!data) {
+    return <LoadHead />;
   }
+
   const onSearchSubmit = (e) => {
     e.preventDefault();
     history.push(`/search?term=${search.value}`);
