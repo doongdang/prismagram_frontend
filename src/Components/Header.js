@@ -6,7 +6,7 @@ import { gql } from "apollo-boost";
 import { HeartEmpty, Compass, User, Logo } from "./Icons";
 import useInput from "../Hooks/useInput";
 import Input from "./Input";
-import { useQuery } from "react-apollo-hooks";
+import { useQuery } from "@apollo/react-hooks";
 
 const Header = styled.header`
   width: 100%;
@@ -73,7 +73,7 @@ export default withRouter(({ history }) => {
   const search = useInput("");
   const { data, loading } = useQuery(ME);
   if (loading) {
-    return "";
+    return "Loading";
   }
   console.log(data.me);
   const onSearchSubmit = (e) => {
