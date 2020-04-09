@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import TextareaAutosize from "react-autosize-textarea";
+
 import FatText from "../FatText";
 import Avatar from "../Avatar";
 import { HeartEmpty, HeartFull, Comment } from "../Icons";
@@ -27,10 +29,26 @@ const Location = styled.span`
   font-size: 12px;
 `;
 
-const Files = styled.div``;
+const Files = styled.div`
+  position: relative;
+  padding-bottom: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex-shrink: 0;
+`;
 
-const File = styled.img`
+const File = styled.div`
   max-width: 100%;
+  width: 100%;
+  height: 600px;
+  position: absolute;
+  top: 0;
+  background-image: url(${(props) => props.src});
+  background-size: cover;
+  background-position: center;
+  opacity: ${(props) => (props.showing ? 1 : 0)};
+  transition: opacity 0.5s linear;
 `;
 
 const Button = styled.span`
@@ -61,6 +79,16 @@ const Timestamp = styled.span`
   border-bottom: ${(props) => props.theme.lightGreyColor} 1px solid;
 `;
 
+const Textarea = styled(TextareaAutosize)`
+  border: none;
+  width: 100%;
+  resize: none;
+  font-size: 14px;
+  &:focus {
+    outline: none;
+  }
+`;
+
 export default ({
   user: { username, avatar },
   location,
@@ -68,6 +96,8 @@ export default ({
   isLiked,
   likeCount,
   createdAt,
+  newComment,
+  currentItem,
 }) => (
   <Post>
     <Header>
@@ -79,7 +109,14 @@ export default ({
     </Header>
     <Files>
       {files &&
-        files.map((file) => <File key={file.id} id={file.id} src={file.url} />)}
+        files.map((file, index) => (
+          <File
+            key={file.id}
+            id={file.id}
+            src={file.url}
+            showing={index === currentItem}
+          />
+        ))}
     </Files>
     <Meta>
       <Buttons>
@@ -90,6 +127,7 @@ export default ({
       </Buttons>
       <FatText text={likeCount === 1 ? "1 like" : `${likeCount} likes`} />
       <Timestamp>{createdAt}</Timestamp>
+      <Textarea placeholder="Add a Comment..." {...newComment} />
     </Meta>
   </Post>
 );

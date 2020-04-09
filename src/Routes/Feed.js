@@ -1,5 +1,5 @@
 import React from "react";
-import Helmet from "react-helmet";
+import { Helmet } from "react-helmet";
 import { gql } from "apollo-boost";
 import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";

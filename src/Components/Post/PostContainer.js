@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Proptypes from "prop-types";
 
 import PostPresenter from "./PostPresenter";
@@ -17,7 +17,18 @@ const PostContainer = ({
 }) => {
   const [isLikedS, setisLikedS] = useState(isLiked);
   const [likeCountS, setlikeCountS] = useState(likeCount);
+  const [currentItem, setcurrentItem] = useState(0);
+
   const comment = useInput("");
+
+  useEffect(() => {
+    const totalFiles = files.length;
+    if (currentItem === totalFiles - 1) {
+      setTimeout(() => setcurrentItem(0), 3000);
+    } else {
+      setTimeout(() => setcurrentItem(currentItem + 1), 3000);
+    }
+  }, [currentItem, files]);
 
   return (
     <PostPresenter
@@ -32,6 +43,7 @@ const PostContainer = ({
       newComment={comment}
       setisLikedS={setisLikedS}
       setlikeCountS={setlikeCountS}
+      currentItem={currentItem}
     />
   );
 };
