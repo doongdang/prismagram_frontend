@@ -98,6 +98,7 @@ export default ({
   createdAt,
   newComment,
   currentItem,
+  toggleLike,
 }) => (
   <Post>
     <Header>
@@ -120,7 +121,9 @@ export default ({
     </Files>
     <Meta>
       <Buttons>
-        <Button>{isLiked ? <HeartFull /> : <HeartEmpty />}</Button>
+        <Button onClick={toggleLike}>
+          {isLiked ? <HeartFull /> : <HeartEmpty />}
+        </Button>
         <Button>
           <Comment />
         </Button>
