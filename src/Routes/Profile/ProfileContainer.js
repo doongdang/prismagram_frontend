@@ -29,6 +29,12 @@ const GET_USER = gql`
   }
 `;
 
+const EDIT_USER = gql`
+  mutation editUser($username: String, $bio: String) {
+    editUser(username: $username, bio: $bio)
+  }
+`;
+
 export const LOG_OUT = gql`
   mutation logUserOut {
     logUserOut @client
@@ -42,6 +48,14 @@ export default withRouter(
   }) => {
     const { data, loading } = useQuery(GET_USER, { variables: { username } });
     const [logOut] = useMutation(LOG_OUT);
-    return <ProfilePresenter loading={loading} logOut={logOut} data={data} />;
+    const [editUser] = useMutation(EDIT_USER);
+    return (
+      <ProfilePresenter
+        loading={loading}
+        logOut={logOut}
+        data={data}
+        editUser={editUser}
+      />
+    );
   }
 );

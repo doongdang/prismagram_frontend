@@ -32,7 +32,6 @@ const Username = styled.span`
   font-size: 26px;
   margin-bottom: 10px;
   display: block;
-  padding: 10px;
 `;
 
 const Counts = styled.ul`
@@ -61,8 +60,7 @@ const Posts = styled.div`
   grid-template-rows: 200px;
   grid-auto-rows: 200px;
 `;
-
-export default ({ loading, data, logOut }) => {
+export default ({ loading, data, logOut, editUser }) => {
   if (loading) {
     return (
       <Wrapper>
@@ -98,7 +96,10 @@ export default ({ loading, data, logOut }) => {
             <UsernameRow>
               <Username>{username}</Username>
               {isSelf ? (
-                <Button onClick={logOut} text="Log Out" />
+                <>
+                  <Button text="Edit" />
+                  <Button onClick={logOut} text="Log Out" />
+                </>
               ) : (
                 <FollowButton id={id} isFollowing={isFollowing} />
               )}

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, withRouter } from "react-router-dom";
 import { useQuery } from "@apollo/react-hooks";
 
-import { HeartEmpty, Compass, User, Logo } from "./Icons";
+import { Compass, User, Logo, Message } from "./Icons";
 import useInput from "../Hooks/useInput";
 import Input from "./Input";
 import LoadHead from "./LoadHead";
@@ -95,8 +95,8 @@ export default withRouter(({ history }) => {
           <HeaderLink to="/explore">
             <Compass />
           </HeaderLink>
-          <HeaderLink to="/notifications">
-            <HeartEmpty />
+          <HeaderLink to="/message">
+            <Message />
           </HeaderLink>
           {!data.me ? (
             <HeaderLink to="/#">

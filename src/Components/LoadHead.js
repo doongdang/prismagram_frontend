@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { HeartEmpty, Compass, User, Logo } from "./Icons";
+import { Compass, User, Logo, Message } from "./Icons";
 
 const Input = styled.input`
   border: ${(props) => props.theme.boxBorder};
@@ -74,7 +74,7 @@ export default () => {
             <Compass />
           </HeaderIcons>
           <HeaderIcons>
-            <HeartEmpty />
+            <Message />
           </HeaderIcons>
           <HeaderIcons>
             <User />
