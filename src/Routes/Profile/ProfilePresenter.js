@@ -54,6 +54,11 @@ const Fullname = styled(FatText)`
   font-size: 16px;
 `;
 
+const BioColumn = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Bio = styled.p`
   margin: 10px 0px;
 `;
@@ -92,10 +97,12 @@ export default ({
   usernameI,
   bioI,
   editUserMuation,
+  editUserMuationB,
 }) => {
   const [editModeN, seteditModeN] = useState(false);
+  const [editModeB, seteditModeB] = useState(false);
 
-  const onClick = async (e) => {
+  const onClickN = async (e) => {
     e.preventDefault();
     if (usernameI !== "") {
       try {
@@ -118,6 +125,29 @@ export default ({
       }
     }
   };
+  const onClickB = async (e) => {
+    e.preventDefault();
+    if (bioI !== "") {
+      try {
+        const {
+          data: { editUser },
+        } = await editUserMuationB();
+
+        if (!editUser) {
+          toast.error("Can`t Change bio.");
+        } else {
+          toast.success("bio is Changed.");
+        }
+        console.log(editUser);
+        console.log(bioI.value);
+        window.location.reload();
+      } catch (e) {
+        console.log(e);
+        toast.error(e.message);
+      }
+    }
+  };
+
   if (loading) {
     return (
       <Wrapper>
@@ -156,7 +186,8 @@ export default ({
                   <Input placeholder={"New Username"} {...usernameI} />
                   <EditSave
                     onClick={(e) => {
-                      onClick(e);
+                      onClickN(e);
+                      seteditModeN(false);
                     }}
                   >
                     {"Save"}
@@ -199,7 +230,40 @@ export default ({
               </Count>
             </Counts>
             <Fullname text={fullName} />
-            <Bio>{bio}</Bio>
+            <BioColumn>
+              {editModeB ? (
+                <>
+                  <Input placeholder={"New Description"} {...bioI} />
+                  <EditSave
+                    onClick={(e) => {
+                      onClickB(e);
+                      seteditModeB(false);
+                    }}
+                  >
+                    {"Save"}
+                  </EditSave>
+                </>
+              ) : (
+                <Bio>{bio}</Bio>
+              )}
+              {isSelf ? (
+                <>
+                  {editModeB ? (
+                    <>
+                      <EditCancel onClick={() => seteditModeB(false)}>
+                        {"Cancel"}
+                      </EditCancel>
+                    </>
+                  ) : (
+                    <EditButton onClick={() => seteditModeB(true)}>
+                      <Pencil size={14} />
+                    </EditButton>
+                  )}
+                </>
+              ) : (
+                ""
+              )}
+            </BioColumn>
           </HeaderColumn>
         </Header>
         <Posts>

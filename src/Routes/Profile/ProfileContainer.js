@@ -31,9 +31,15 @@ const GET_USER = gql`
 `;
 
 const EDIT_USER = gql`
-  mutation editUser($username: String, $bio: String) {
-    editUser(username: $username, bio: $bio) {
+  mutation editUser($username: String) {
+    editUser(username: $username) {
       username
+    }
+  }
+`;
+const EDIT_USER_B = gql`
+  mutation editUser($bio: String) {
+    editUser(bio: $bio) {
       bio
     }
   }
@@ -58,7 +64,10 @@ export default withRouter(
     });
     const [logOut] = useMutation(LOG_OUT);
     const [editUserMuation] = useMutation(EDIT_USER, {
-      variables: { username: usernameI.value, bio: bioI.value },
+      variables: { username: usernameI.value },
+    });
+    const [editUserMuationB] = useMutation(EDIT_USER_B, {
+      variables: { bio: bioI.value },
     });
 
     return (
@@ -68,6 +77,7 @@ export default withRouter(
         history={history}
         data={data}
         editUserMuation={editUserMuation}
+        editUserMuationB={editUserMuationB}
         bioI={bioI}
         usernameI={usernameI}
       />
