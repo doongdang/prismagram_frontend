@@ -49,10 +49,13 @@ export default withRouter(
     match: {
       params: { username },
     },
+    history,
   }) => {
     const usernameI = useInput("");
     const bioI = useInput("");
-    const { data, loading } = useQuery(GET_USER, { variables: { username } });
+    const { data, loading } = useQuery(GET_USER, {
+      variables: { username },
+    });
     const [logOut] = useMutation(LOG_OUT);
     const [editUserMuation] = useMutation(EDIT_USER, {
       variables: { username: usernameI.value, bio: bioI.value },
@@ -62,6 +65,7 @@ export default withRouter(
       <ProfilePresenter
         loading={loading}
         logOut={logOut}
+        history={history}
         data={data}
         editUserMuation={editUserMuation}
         bioI={bioI}

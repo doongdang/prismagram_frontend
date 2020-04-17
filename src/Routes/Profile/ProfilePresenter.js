@@ -87,10 +87,10 @@ const EditSave = styled.button`
 export default ({
   loading,
   data,
+  history,
   logOut,
   usernameI,
   bioI,
-
   editUserMuation,
 }) => {
   const [editModeN, seteditModeN] = useState(false);
@@ -108,8 +108,10 @@ export default ({
         } else {
           toast.success("Username is Changed.");
         }
+
+        console.log(editUser);
         console.log(usernameI.value);
-        window.location.replace(`${usernameI.value}`);
+        history.push(`/${editUser.username}`);
       } catch (e) {
         console.log(e);
         toast.error(e.message);
